@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Money Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-icon">💸</div>
+      <h1>Money Tracker</h1>
+      <p class="subtitle">Track your everyday spending with ease</p>
+    </header>
+
+    <!-- Total Spent Overview Card -->
+    <section class="total-card" aria-label="Total spent summary">
+      <span class="total-label">Total Amount Spent</span>
+      <div class="total-amount" id="total-amount">$0.00</div>
+      <div class="total-count" id="total-count">0 expenses recorded</div>
+    </section>
+
+    <!-- Add Expense Form Card -->
+    <section class="card form-card">
+      <h2 class="card-title">Add New Expense</h2>
+      <form id="expense-form" novalidate>
+        <div class="form-group">
+          <label for="expense-name">What did you spend on?</label>
+          <input 
+            type="text" 
+            id="expense-name" 
+            placeholder="e.g., Groceries, Coffee, Rent" 
+            required 
+            autocomplete="off"
+            maxlength="80"
+          >
+          <span class="error-msg" id="name-error">Please enter what you spent on</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-half">
+            <label for="expense-amount">How much? ($)</label>
+            <input 
+              type="number" 
+              id="expense-amount" 
+              placeholder="0.00" 
+              step="0.01" 
+              min="0.01" 
+              required
+            >
+            <span class="error-msg" id="amount-error">Enter a valid amount (&gt; 0)</span>
+          </div>
+
+          <div class="form-group form-group-half">
+            <label for="expense-date">Date</label>
+            <input 
+              type="date" 
+              id="expense-date" 
+              required
+            >
+            <span class="error-msg" id="date-error">Please select a date</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="add-btn">
+          <span class="btn-icon">+</span> Add Expense
+        </button>
+      </form>
+    </section>
+
+    <!-- Expenses List Card -->
+    <section class="card list-card">
+      <div class="list-header">
+        <h2 class="card-title">All Expenses</h2>
+        <span class="badge" id="list-badge">0 items</span>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container" id="search-container">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="search" 
+          id="search-input" 
+          placeholder="Search expenses..." 
+          aria-label="Search expenses"
+          autocomplete="off"
+        >
+        <button type="button" id="clear-search-btn" class="clear-search-btn hidden" aria-label="Clear search">✕</button>
+      </div>
+
+      <!-- Search stats info (when filtering) -->
+      <div id="search-feedback" class="search-feedback hidden"></div>
+
+      <!-- Expense Items Container -->
+      <ul class="expense-list" id="expense-list" aria-label="List of expenses"></ul>
+
+      <!-- Friendly Empty State (when 0 expenses) -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🪙</div>
+        <h3>No expenses yet</h3>
+        <p>Your wallet is happy! Add your first expense above to start tracking your spending.</p>
+      </div>
+
+      <!-- No Search Results Found State -->
+      <div class="empty-state hidden" id="no-results-state">
+        <div class="empty-icon">🔎</div>
+        <h3>No matching expenses</h3>
+        <p>We couldn't find any expense matching your search. Try a different keyword.</p>
+        <button type="button" class="btn btn-secondary btn-sm" id="reset-search-btn">Clear Search</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Edit Expense Modal -->
+  <div class="modal-backdrop hidden" id="edit-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Edit Expense</h3>
+        <button type="button" class="close-modal-btn" id="close-modal-btn" aria-label="Close modal">✕</button>
+      </div>
+      <form id="edit-form" novalidate>
+        <input type="hidden" id="edit-expense-id">
+        
+        <div class="form-group">
+          <label for="edit-expense-name">What did you spend on?</label>
+          <input 
+            type="text" 
+            id="edit-expense-name" 
+            required 
+            maxlength="80"
+          >
+          <span class="error-msg" id="edit-name-error">Please enter what you spent on</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group form-group-half">
+            <label for="edit-expense-amount">How much? ($)</label>
+            <input 
+              type="number" 
+              id="edit-expense-amount" 
+              step="0.01" 
+              min="0.01" 
+              required
+            >
+            <span class="error-msg" id="edit-amount-error">Enter a valid amount (&gt; 0)</span>
+          </div>
+
+          <div class="form-group form-group-half">
+            <label for="edit-expense-date">Date</label>
+            <input 
+              type="date" 
+              id="edit-expense-date" 
+              required
+            >
+            <span class="error-msg" id="edit-date-error">Please select a date</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-edit-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
